@@ -30,7 +30,9 @@
         color: #212; /* fg */
       }
       .tx_list a:hover {
-        color: #9bb; /* bg */
+        color: #212; /* fg */
+        background: rgba(50, 50, 50, 0.15);
+        max-width: 20%
       }
       /* parent selector madness... */
       /*.tx_list li:has(> a.active) {*/
@@ -56,6 +58,6 @@
     <script type="text/javascript" src="./vendor/opal-browser-socket.js"></script>
     <script type="text/javascript" src="./vendor/react.js"></script>
     <script type="text/javascript" src="./vendor/react-rb.js"></script>
-    <script type="text/javascript" src="./main.js"></script>
+    <script type="text/javascript" src="./dist/bundle.js"></script>
   </body>
 </html>

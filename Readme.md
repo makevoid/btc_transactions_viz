@@ -1,4 +1,12 @@
-# Opal Raw
+# BTC Transactions Viz (visualizer)
+
+Visualizes the BTC transactions - current data from blockchain.info (websockets API) [ ws:// | wss:// ]
+- next version will support bitcoind
+
+
+---
+
+# mkv Opal setup (no sprockets, using guard)
 
 A very fast opal setup - includes opal browser - uses guard to automatically compile your .js.ruby files as you save them - has opal and opal-browser vendored already in js files.
 
