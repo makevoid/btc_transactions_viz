@@ -21,18 +21,21 @@
       }
       .tx_list div {
         background: rgba(50, 50, 50, 0.15);
+        max-width: 20%;
 
         padding: 5px 10px;
         border-radius: 5px;
         margin-bottom: 7px;
       }
       .tx_list a {
+        max-width: 20%;
         color: #212; /* fg */
       }
       .tx_list a:hover {
         color: #212; /* fg */
-        background: rgba(50, 50, 50, 0.15);
-        max-width: 20%
+      }
+      .tx_list a:hover div {
+        background: rgba(50, 50, 50, 0.25);
       }
       /* parent selector madness... */
       /*.tx_list li:has(> a.active) {*/
@@ -41,13 +44,16 @@
       /*.tx_list *! > a  {
         background: rgba(50, 50, 50, 0.25);
       }*/
-      .tx_list a:hover {
-        background: rgba(50, 50, 50, 0.15);
+      Transaction a:hover {
+        /*background: rgba(50, 50, 50, 0.15);*/
+      }
+      .mini {
+        font-size: 70%;
       }
     </style>
   </head>
   <body>
-    <h3>Ƀ Transactions</h3>
+    <h3>Ƀitcoin Transactions</h3>
     <div id="container"></div>
 
     <script type="text/javascript" src="./vendor/opal.js"></script>

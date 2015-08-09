@@ -2,18 +2,18 @@
 
 CONCAT_FILES = %w(
   config/env
+  lib/modules/tx_fetcher
   lib/comp/transaction
   lib/comp/tx_viz
-  lib/modules/tx_fetcher
   app
 )
 
-BUNDLE = "dist/bundle.rb"
+BUNDLE = "bundle.rb"
 
 # :concat, type: "rb", files: files, input_dir: "lib", output: "dist/bundle" do
 
 guard :shell do
-  watch /^(?!dist\/bundle)(.+)\.rb$/ do |m|
+  watch /^(?!bundle)(.+)\.rb$/ do |m|
     puts "bundling........."
     bundle = []
     for file in CONCAT_FILES

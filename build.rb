@@ -6,7 +6,7 @@ Opal.append_path "./"
 
 File.binwrite(
   "dist/bundle.js",
-    Opal::Builder.build("dist/bundle").to_s
+    Opal::Builder.build("bundle").to_s
 )
 
 # TODO:
