@@ -1,61 +1,70 @@
-# required: opal + browser
 `self.$require("browser");`
-`self.$require("browser/http");`
-# `self.$require("browser/interval");` # can't make it work atm
 
 WINDOW = Native.convert $window
 
-module SetInterval
-  def self.included(base)
-    base.class_eval do
-      before_mount { @interval = [] }
-      before_unmount do
-        # abort associated timer of a component right before unmount
-        @interval.each { |i| `#{WINDOW}.clearInterval(#{i})` }
+module TxFetcher
+  def load_transactions
+    tx_viz = self
+    Browser::Socket.new 'wss://ws.blockchain.info/inv' do
+      on :open do
+        puts '{"op":"unconfirmed_sub"}'
+      end
+
+      on :message do |e|
+        data  = `JSON.parse(e.native.data).x`
+        out   = `data.out`
+        hash  = `data.hash`
+        value = out.map{ |o| `o.value` / 10 ** 8 }.inject :+
+        value = value.round 8
+        tx    = { value: value, hash: hash }
+        # `console.log(tx)`
+        tx_viz.transactions =  [tx] + tx_viz.transactions[0..1000]
       end
     end
   end
-
-  def set_interval(seconds, &block)
-    every = 1
-    @interval << `#{WINDOW}.setInterval(#{block}, #{every} * 1000)`
-  end
 end
 
-class TickTock
+class Transaction
   include React::Component
-  include SetInterval
 
-  define_state(:seconds) { 0 }
-
-  before_mount do
-    set_interval(1) { self.seconds = self.seconds + 1 }
-    set_interval(1) { puts "Tick!" }
+  def tx_url(tx_hash)
+    "https://blockchain.info/tx/#{tx_hash}"
   end
 
   def render
-    span do
-      "React has been running for: #{self.seconds}"
+    a href: tx_url(params[:tx][:hash]) do
+      div style: { width: "#{params[:tx][:value].round}%" } do
+        params[:tx][:value]
+      end
     end
   end
 end
 
-React.render(React.create_element(TickTock), $document.body.to_n)
+class TxViz
+  include React::Component
+  include TxFetcher
+  after_mount :load_transactions
 
+  define_state(:transactions) { [] }
 
-after = 5
-
-unmount_component = lambda do
-  React.unmount_component_at_node($document.body.to_n)
+  def render
+    div do
+      div className: "header" do
+        h3 { "Transactions" }
+        p { "realtime transactions visualizer, bitcoin network" }
+        p { "opal, react, css3, websockets, bitcoin, blockchain, blockchain.com, bitcoind"}
+      end
+      div className: "tx_list" do
+        self.transactions.each_with_index.map do |tx, idx|
+          present Transaction, tx: tx, key: tx[:hash]
+        end
+      end
+    end
+  end
 end
-`#{WINDOW}.setTimeout(#{unmount_component.to_n}, #{after} * 1000)`
 
-
-
-# notes:
-
-# Browser::HTTP.get "/test.json" do
-#   on :success do |res|
-#     alert res.json.inspect
-#   end
-# end
+React.render(
+  React.create_element(TxViz),
+  $document.body.to_n
+  # $document.getElementById "container"
+)
