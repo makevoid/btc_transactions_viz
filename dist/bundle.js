@@ -4,7 +4,7 @@
   var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice, $module = Opal.module, $hash2 = Opal.hash2, $range = Opal.range, $klass = Opal.klass, $gvars = Opal.gvars;
   if ($gvars.document == null) $gvars.document = nil;
 
-  Opal.add_stubs(['$new', '$on', '$puts', '$inject', '$map', '$/', '$**', '$round', '$transactions=', '$+', '$[]', '$transactions', '$include', '$a', '$div', '$params', '$tx_url', '$after_mount', '$define_state', '$h3', '$p', '$present', '$each_with_index', '$render', '$create_element', '$to_n', '$body']);
+  Opal.add_stubs(['$new', '$on', '$puts', '$inject', '$map', '$/', '$**', '$round', '$transactions=', '$+', '$[]', '$transactions', '$total_value=', '$total_value', '$include', '$a', '$params', '$tx_url', '$div', '$after_mount', '$define_state', '$timer=', '$h3', '$p', '$label', '$input', '$-', '$timer', '$floor', '$*', '$present', '$each_with_index', '$render', '$create_element', '$to_n', '$body']);
   console.log("loading app environment");
   self.$require("browser");
   (function($base) {
@@ -31,7 +31,8 @@ if (o == null) o = nil;
           return (o.value)['$/']((10)['$**'](8))}, TMP_4.$$s = self, TMP_4), $a).call($b).$inject("+");
           value = value.$round(8);
           tx = $hash2(["value", "hash"], {"value": value, "hash": hash});
-          return (($a = [[tx]['$+'](tx_viz.$transactions()['$[]']($range(0, 1000, false)))]), $c = tx_viz, $c['$transactions='].apply($c, $a), $a[$a.length-1]);}, TMP_3.$$s = self, TMP_3), $a).call($c, "message");}, TMP_1.$$s = self, TMP_1), $a).call($b, "wss://ws.blockchain.info/inv");
+          (($a = [[tx]['$+'](tx_viz.$transactions()['$[]']($range(0, 1000, false)))]), $c = tx_viz, $c['$transactions='].apply($c, $a), $a[$a.length-1]);
+          return (($a = [tx_viz.$total_value()['$+'](value)]), $c = tx_viz, $c['$total_value='].apply($c, $a), $a[$a.length-1]);}, TMP_3.$$s = self, TMP_3), $a).call($c, "message");}, TMP_1.$$s = self, TMP_1), $a).call($b, "wss://ws.blockchain.info/inv");
     })
   })(self);
   (function($base, $super) {
@@ -49,20 +50,28 @@ if (o == null) o = nil;
     };
 
     return (def.$render = function() {
-      var $a, $b, TMP_5, self = this;
+      var $a, $b, TMP_5, $c, TMP_6, self = this, element = nil, width = nil;
 
-      return ($a = ($b = self).$a, $a.$$p = (TMP_5 = function(){var self = TMP_5.$$s || this, $a, $b, TMP_6;
+      element = ($a = ($b = self).$a, $a.$$p = (TMP_5 = function(){var self = TMP_5.$$s || this;
 
-      return ($a = ($b = self).$div, $a.$$p = (TMP_6 = function(){var self = TMP_6.$$s || this;
+      return "" + (self.$params()['$[]']("tx")['$[]']("value")) + " BTC"}, TMP_5.$$s = self, TMP_5), $a).call($b, $hash2(["href"], {"href": self.$tx_url(self.$params()['$[]']("tx")['$[]']("hash"))}));
+      width = self.$params()['$[]']("tx")['$[]']("value").$round();
+      width = "" + (width) + "%";
+      
+      var divStyle = {
+        width: width
+      }
+    ;
+      return ($a = ($c = self).$div, $a.$$p = (TMP_6 = function(){var self = TMP_6.$$s || this;
 
-        return self.$params()['$[]']("tx")['$[]']("value")}, TMP_6.$$s = self, TMP_6), $a).call($b, $hash2(["style"], {"style": $hash2(["width"], {"width": "" + (self.$params()['$[]']("tx")['$[]']("value").$round()) + "%"})}))}, TMP_5.$$s = self, TMP_5), $a).call($b, $hash2(["href"], {"href": self.$tx_url(self.$params()['$[]']("tx")['$[]']("hash"))}));
+      return element}, TMP_6.$$s = self, TMP_6), $a).call($c, $hash2(["style"], {"style": divStyle}));
     }, nil) && 'render';
   })(self, null);
   (function($base, $super) {
     function $TxViz(){};
     var self = $TxViz = $klass($base, $super, 'TxViz', $TxViz);
 
-    var def = self.$$proto, $scope = self.$$scope, $a, $b, TMP_7;
+    var def = self.$$proto, $scope = self.$$scope, $a, $b, TMP_7, $c, TMP_8, $d, TMP_9;
 
     self.$include((($scope.get('React')).$$scope.get('Component')));
 
@@ -70,30 +79,98 @@ if (o == null) o = nil;
 
     self.$after_mount("load_transactions");
 
+    self.$after_mount("reset_timer");
+
     ($a = ($b = self).$define_state, $a.$$p = (TMP_7 = function(){var self = TMP_7.$$s || this;
 
-    return []}, TMP_7.$$s = self, TMP_7), $a).call($b, "transactions");
+    return new Date();}, TMP_7.$$s = self, TMP_7), $a).call($b, "timer");
+
+    ($a = ($c = self).$define_state, $a.$$p = (TMP_8 = function(){var self = TMP_8.$$s || this;
+
+    return []}, TMP_8.$$s = self, TMP_8), $a).call($c, "transactions");
+
+    ($a = ($d = self).$define_state, $a.$$p = (TMP_9 = function(){var self = TMP_9.$$s || this;
+
+    return 0}, TMP_9.$$s = self, TMP_9), $a).call($d, "total_value");
+
+    def.$reset_timer = function() {
+      var $a, $b, self = this;
+
+      return (($a = [new Date()]), $b = self, $b['$timer='].apply($b, $a), $a[$a.length-1]);
+    };
 
     return (def.$render = function() {
-      var $a, $b, TMP_8, self = this;
+      var $a, $b, TMP_10, self = this;
 
-      return ($a = ($b = self).$div, $a.$$p = (TMP_8 = function(){var self = TMP_8.$$s || this, $a, $b, TMP_9, $c, TMP_12;
+      return ($a = ($b = self).$div, $a.$$p = (TMP_10 = function(){var self = TMP_10.$$s || this, $a, $b, TMP_11, $c, TMP_14, $d, TMP_30, $e, TMP_31;
 
-      ($a = ($b = self).$div, $a.$$p = (TMP_9 = function(){var self = TMP_9.$$s || this, $a, $b, TMP_10, $c, TMP_11;
+      ($a = ($b = self).$div, $a.$$p = (TMP_11 = function(){var self = TMP_11.$$s || this, $a, $b, TMP_12, $c, TMP_13;
 
-        ($a = ($b = self).$h3, $a.$$p = (TMP_10 = function(){var self = TMP_10.$$s || this;
+        ($a = ($b = self).$h3, $a.$$p = (TMP_12 = function(){var self = TMP_12.$$s || this;
 
-          return "Bitcoin Transactions"}, TMP_10.$$s = self, TMP_10), $a).call($b);
-          return ($a = ($c = self).$p, $a.$$p = (TMP_11 = function(){var self = TMP_11.$$s || this;
+          return "Transactions"}, TMP_12.$$s = self, TMP_12), $a).call($b);
+          return ($a = ($c = self).$p, $a.$$p = (TMP_13 = function(){var self = TMP_13.$$s || this;
 
-          return "realtime transactions visualizer, bitcoin network - opal, react, css3, websockets, bitcoin, blockchain, blockchain.com, bitcoind"}, TMP_11.$$s = self, TMP_11), $a).call($c, $hash2(["className"], {"className": "mini"}));}, TMP_9.$$s = self, TMP_9), $a).call($b, $hash2(["className"], {"className": "header"}));
-        return ($a = ($c = self).$div, $a.$$p = (TMP_12 = function(){var self = TMP_12.$$s || this, $a, $b, TMP_13;
+          return "realtime transactions visualizer, bitcoin network - opal, react, css3, websockets, bitcoin, blockchain, blockchain.com, bitcoind"}, TMP_13.$$s = self, TMP_13), $a).call($c, $hash2(["className"], {"className": "mini"}));}, TMP_11.$$s = self, TMP_11), $a).call($b, $hash2(["className"], {"className": "header"}));
+        ($a = ($c = self).$div, $a.$$p = (TMP_14 = function(){var self = TMP_14.$$s || this, $a, $b, TMP_15, $c, TMP_17, $d, TMP_26;
 
-        return ($a = ($b = self.$transactions().$each_with_index()).$map, $a.$$p = (TMP_13 = function(tx, idx){var self = TMP_13.$$s || this;
+        ($a = ($b = self).$div, $a.$$p = (TMP_15 = function(){var self = TMP_15.$$s || this, $a, $b, TMP_16;
+
+          ($a = ($b = self).$label, $a.$$p = (TMP_16 = function(){var self = TMP_16.$$s || this;
+
+            return "Address to watch: "}, TMP_16.$$s = self, TMP_16), $a).call($b, $hash2(["htmlFor"], {"htmlFor": "watch_address"}));
+            return self.$input($hash2(["id", "placeholder"], {"id": "watch_address", "placeholder": "1address..."}));}, TMP_15.$$s = self, TMP_15), $a).call($b, $hash2(["className"], {"className": "watch_address"}));
+          ($a = ($c = self).$div, $a.$$p = (TMP_17 = function(){var self = TMP_17.$$s || this, $a, $b, TMP_18, $c, TMP_19, $d, TMP_20, $e, TMP_21, $f, TMP_22, $g, TMP_23, $h, TMP_24, $i, TMP_25;
+
+          ($a = ($b = self).$p, $a.$$p = (TMP_18 = function(){var self = TMP_18.$$s || this;
+
+            return "theme colors"}, TMP_18.$$s = self, TMP_18), $a).call($b);
+            ($a = ($c = self).$p, $a.$$p = (TMP_19 = function(){var self = TMP_19.$$s || this;
+
+            return "[  ] light"}, TMP_19.$$s = self, TMP_19), $a).call($c);
+            ($a = ($d = self).$p, $a.$$p = (TMP_20 = function(){var self = TMP_20.$$s || this;
+
+            return "[ x ] color"}, TMP_20.$$s = self, TMP_20), $a).call($d);
+            ($a = ($e = self).$p, $a.$$p = (TMP_21 = function(){var self = TMP_21.$$s || this;
+
+            return "[  ] dark"}, TMP_21.$$s = self, TMP_21), $a).call($e);
+            ($a = ($f = self).$p, $a.$$p = (TMP_22 = function(){var self = TMP_22.$$s || this;
+
+            return "[  ] desaturated"}, TMP_22.$$s = self, TMP_22), $a).call($f);
+            ($a = ($g = self).$p, $a.$$p = (TMP_23 = function(){var self = TMP_23.$$s || this;
+
+            return "[  ] invert"}, TMP_23.$$s = self, TMP_23), $a).call($g);
+            ($a = ($h = self).$p, $a.$$p = (TMP_24 = function(){var self = TMP_24.$$s || this;
+
+            return "display"}, TMP_24.$$s = self, TMP_24), $a).call($h);
+            return ($a = ($i = self).$p, $a.$$p = (TMP_25 = function(){var self = TMP_25.$$s || this;
+
+            return "[ btc / mbtc / bits / satoshis ] unit"}, TMP_25.$$s = self, TMP_25), $a).call($i);}, TMP_17.$$s = self, TMP_17), $a).call($c, $hash2(["className"], {"className": "theme colors"}));
+          return ($a = ($d = self).$div, $a.$$p = (TMP_26 = function(){var self = TMP_26.$$s || this, $a, $b, TMP_27, $c, TMP_28, $d, TMP_29;
+
+          ($a = ($b = self).$p, $a.$$p = (TMP_27 = function(){var self = TMP_27.$$s || this;
+
+            return "filters"}, TMP_27.$$s = self, TMP_27), $a).call($b);
+            ($a = ($c = self).$p, $a.$$p = (TMP_28 = function(){var self = TMP_28.$$s || this;
+
+            return "[ x ] small transactions (<1 BTC)"}, TMP_28.$$s = self, TMP_28), $a).call($c);
+            return ($a = ($d = self).$p, $a.$$p = (TMP_29 = function(){var self = TMP_29.$$s || this;
+
+            return "[  ] "}, TMP_29.$$s = self, TMP_29), $a).call($d);}, TMP_26.$$s = self, TMP_26), $a).call($d, $hash2(["className"], {"className": "filters"}));}, TMP_14.$$s = self, TMP_14), $a).call($c, $hash2(["className"], {"className": "right_panel"}));
+        ($a = ($d = self).$div, $a.$$p = (TMP_30 = function(){var self = TMP_30.$$s || this, elapsed = nil, minutes = nil, seconds = nil, btc_min = nil;
+
+        elapsed = (new Date())['$-'](self.$timer());
+          minutes = (elapsed['$/'](60)).$floor();
+          seconds = elapsed['$-'](minutes['$*'](60));
+          btc_min = self.$total_value()['$/'](elapsed);
+          return "" + (self.$total_value().$floor()) + " BTC transacted in " + (minutes) + " minutes and " + (seconds.$floor()) + " seconds (" + (btc_min.$round(1)) + " BTC/minute)";}, TMP_30.$$s = self, TMP_30), $a).call($d, $hash2(["className"], {"className": "status"}));
+        return ($a = ($e = self).$div, $a.$$p = (TMP_31 = function(){var self = TMP_31.$$s || this, $a, $b, TMP_32;
+
+        return ($a = ($b = self.$transactions().$each_with_index()).$map, $a.$$p = (TMP_32 = function(tx, idx){var self = TMP_32.$$s || this;
 if (tx == null) tx = nil;if (idx == null) idx = nil;
-          return self.$present($scope.get('Transaction'), $hash2(["tx", "key"], {"tx": tx, "key": tx['$[]']("hash")}))}, TMP_13.$$s = self, TMP_13), $a).call($b)}, TMP_12.$$s = self, TMP_12), $a).call($c, $hash2(["className"], {"className": "tx_list"}));}, TMP_8.$$s = self, TMP_8), $a).call($b);
+          return self.$present($scope.get('Transaction'), $hash2(["tx", "key"], {"tx": tx, "key": tx['$[]']("hash")}))}, TMP_32.$$s = self, TMP_32), $a).call($b)}, TMP_31.$$s = self, TMP_31), $a).call($e, $hash2(["className"], {"className": "tx_list"}));}, TMP_10.$$s = self, TMP_10), $a).call($b);
     }, nil) && 'render';
   })(self, null);
-  console.log("asd");
+  console.log("loading app.rb");
   return $scope.get('React').$render($scope.get('React').$create_element($scope.get('TxViz')), $gvars.document.$body().$to_n());
 })(Opal);

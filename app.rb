@@ -1,5 +1,4 @@
-`console.log("asd")`
-
+`console.log("loading app.rb")`
 
 React.render(
   React.create_element(TxViz),

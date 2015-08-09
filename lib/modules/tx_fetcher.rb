@@ -14,7 +14,8 @@ module TxFetcher
         value = value.round 8
         tx    = { value: value, hash: hash }
         # `console.log(tx)`
-        tx_viz.transactions =  [tx] + tx_viz.transactions[0..1000]
+        tx_viz.transactions = [tx] + tx_viz.transactions[0..1000]
+        tx_viz.total_value  = tx_viz.total_value + value
       end
     end
   end

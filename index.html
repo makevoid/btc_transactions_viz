@@ -5,47 +5,47 @@
     <meta charset="utf-8">
     <style media="screen">
       /*
-        fg #212
+        fg #bbc
         bg #9bb
       */
 
-      html {
+      html, body, #container {
         /*background: linear-gradient(#FFF, #DDD, 0, 100);*/
-        height: 100%;
-        background: linear-gradient( 45deg, #9bb, #9bb);
         width: 100%;
+        height: 100%;
+        background: linear-gradient( 30deg, #fff, #efe);
         color: #212; /* fg */
       }
       a {
         text-decoration: none
       }
+      h3 {
+        margin: 8px 0;
+      }
       .tx_list div {
         background: rgba(50, 50, 50, 0.15);
-        max-width: 20%;
+        max-width: 70%;
 
         padding: 5px 10px;
         border-radius: 5px;
         margin-bottom: 7px;
       }
       .tx_list a {
-        max-width: 20%;
+        white-space: nowrap;
         color: #212; /* fg */
       }
-      .tx_list a:hover {
+      .tx_list div:hover a {
+        color: #101; /* fg */
+      }
+      .tx_list div:hover {
         color: #212; /* fg */
       }
-      .tx_list a:hover div {
-        background: rgba(50, 50, 50, 0.25);
+      .status {
+        margin-bottom: 8px;
       }
-      /* parent selector madness... */
-      /*.tx_list li:has(> a.active) {*/
-      /* *! > input[type=text] */
-      /*.tx_list div:hover div {*/
-      /*.tx_list *! > a  {
-        background: rgba(50, 50, 50, 0.25);
-      }*/
-      Transaction a:hover {
-        /*background: rgba(50, 50, 50, 0.15);*/
+      .right_panel {
+        font-size: 80%;
+        float: right;
       }
       .mini {
         font-size: 70%;
