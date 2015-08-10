@@ -4,7 +4,7 @@
   var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice, $module = Opal.module, $hash2 = Opal.hash2, $range = Opal.range, $klass = Opal.klass, $gvars = Opal.gvars;
   if ($gvars.document == null) $gvars.document = nil;
 
-  Opal.add_stubs(['$new', '$on', '$puts', '$inject', '$map', '$/', '$**', '$round', '$transactions=', '$+', '$[]', '$transactions', '$total_value=', '$total_value', '$include', '$a', '$params', '$tx_url', '$div', '$after_mount', '$define_state', '$timer=', '$h3', '$p', '$label', '$input', '$-', '$timer', '$floor', '$*', '$present', '$each_with_index', '$render', '$create_element', '$to_n', '$body']);
+  Opal.add_stubs(['$new', '$on', '$puts', '$inject', '$map', '$/', '$**', '$round', '$[]', '$transactions', '$+', '$transactions=', '$total_value=', '$total_value', '$include', '$a', '$params', '$tx_url', '$div', '$after_mount', '$define_state', '$timer=', '$h3', '$p', '$label', '$input', '$-', '$timer', '$floor', '$*', '$present', '$each_with_index', '$render', '$create_element', '$to_n', '$body']);
   console.log("loading app environment");
   self.$require("browser");
   (function($base) {
@@ -21,7 +21,7 @@
       ($a = ($b = self).$on, $a.$$p = (TMP_2 = function(){var self = TMP_2.$$s || this;
 
         return self.$puts("{\"op\":\"unconfirmed_sub\"}")}, TMP_2.$$s = self, TMP_2), $a).call($b, "open");
-        return ($a = ($c = self).$on, $a.$$p = (TMP_3 = function(e){var self = TMP_3.$$s || this, $a, $b, TMP_4, $c, data = nil, out = nil, hash = nil, value = nil, tx = nil;
+        return ($a = ($c = self).$on, $a.$$p = (TMP_3 = function(e){var self = TMP_3.$$s || this, $a, $b, TMP_4, $c, data = nil, out = nil, hash = nil, value = nil, tx = nil, comp_num = nil, tx_gone = nil, reactid = nil, elem_gone = nil;
 if (e == null) e = nil;
         data = JSON.parse(e.native.data).x;
           out = data.out;
@@ -31,7 +31,13 @@ if (o == null) o = nil;
           return (o.value)['$/']((10)['$**'](8))}, TMP_4.$$s = self, TMP_4), $a).call($b).$inject("+");
           value = value.$round(8);
           tx = $hash2(["value", "hash"], {"value": value, "hash": hash});
-          (($a = [[tx]['$+'](tx_viz.$transactions()['$[]']($range(0, 1000, false)))]), $c = tx_viz, $c['$transactions='].apply($c, $a), $a[$a.length-1]);
+          comp_num = 100;
+          tx_gone = tx_viz.$transactions()['$[]'](comp_num['$+'](1));
+          if (tx_gone !== false && tx_gone !== nil) {
+            reactid = ".0.3.$" + (tx_gone['$[]']("hash"));
+            elem_gone = document.querySelector("div[data-reactid='"+reactid+"']");
+            React.unmountComponentAtNode(elem_gone);};
+          (($a = [[tx]['$+'](tx_viz.$transactions()['$[]']($range(0, comp_num, false)))]), $c = tx_viz, $c['$transactions='].apply($c, $a), $a[$a.length-1]);
           return (($a = [tx_viz.$total_value()['$+'](value)]), $c = tx_viz, $c['$total_value='].apply($c, $a), $a[$a.length-1]);}, TMP_3.$$s = self, TMP_3), $a).call($c, "message");}, TMP_1.$$s = self, TMP_1), $a).call($b, "wss://ws.blockchain.info/inv");
     })
   })(self);
@@ -166,9 +172,10 @@ if (o == null) o = nil;
           return "" + (self.$total_value().$floor()) + " BTC transacted in " + (minutes) + " minutes and " + (seconds.$floor()) + " seconds (" + (btc_min.$round(1)) + " BTC/minute)";}, TMP_30.$$s = self, TMP_30), $a).call($d, $hash2(["className"], {"className": "status"}));
         return ($a = ($e = self).$div, $a.$$p = (TMP_31 = function(){var self = TMP_31.$$s || this, $a, $b, TMP_32;
 
-        return ($a = ($b = self.$transactions().$each_with_index()).$map, $a.$$p = (TMP_32 = function(tx, idx){var self = TMP_32.$$s || this;
+        return ($a = ($b = self.$transactions().$each_with_index()).$map, $a.$$p = (TMP_32 = function(tx, idx){var self = TMP_32.$$s || this, comp = nil;
 if (tx == null) tx = nil;if (idx == null) idx = nil;
-          return self.$present($scope.get('Transaction'), $hash2(["tx", "key"], {"tx": tx, "key": tx['$[]']("hash")}))}, TMP_32.$$s = self, TMP_32), $a).call($b)}, TMP_31.$$s = self, TMP_31), $a).call($e, $hash2(["className"], {"className": "tx_list"}));}, TMP_10.$$s = self, TMP_10), $a).call($b);
+          comp = self.$present($scope.get('Transaction'), $hash2(["tx", "key"], {"tx": tx, "key": tx['$[]']("hash")}));
+            return comp;}, TMP_32.$$s = self, TMP_32), $a).call($b)}, TMP_31.$$s = self, TMP_31), $a).call($e, $hash2(["className"], {"className": "tx_list"}));}, TMP_10.$$s = self, TMP_10), $a).call($b);
     }, nil) && 'render';
   })(self, null);
   console.log("loading app.rb");

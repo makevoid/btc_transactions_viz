@@ -16,6 +16,9 @@ GEM
     guard-compat (1.2.1)
     guard-concat (0.8.1)
       guard (~> 2.0)
+    guard-sass (1.6.0)
+      guard (>= 2.8.0)
+      sass (>= 3.1)
     guard-shell (0.7.1)
       guard (>= 2.0.0)
       guard-compat (~> 1.0)
@@ -43,6 +46,7 @@ GEM
     rb-fsevent (0.9.5)
     rb-inotify (0.9.5)
       ffi (>= 0.5.0)
+    sass (3.4.14)
     shellany (0.0.1)
     slop (3.6.0)
     sourcemap (0.1.1)
@@ -59,6 +63,7 @@ PLATFORMS
 
 DEPENDENCIES
   guard-concat
+  guard-sass
   guard-shell
   opal (~> 0.7.0)
 

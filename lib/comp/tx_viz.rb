@@ -53,7 +53,8 @@ class TxViz
       end
       div className: "tx_list" do
         self.transactions.each_with_index.map do |tx, idx|
-          present Transaction, tx: tx, key: tx[:hash]
+          comp = present Transaction, tx: tx, key: tx[:hash]
+          comp
         end
       end
     end

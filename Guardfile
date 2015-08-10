@@ -35,7 +35,10 @@ guard :shell do
   end
 end
 
-# if guard doesn't work
+guard :sass, input: "style", output: "css"
+
+
+# if guard doesn't work or if you want something simpler as a build tool: (gem 'listener' - is the way to go)
 #
 # listener = Listen.to('.') do |modified, added, removed|
 #   puts "modified absolute path: #{modified}"

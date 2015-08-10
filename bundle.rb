@@ -17,8 +17,18 @@ module TxFetcher
         value = out.map{ |o| `o.value` / 10 ** 8 }.inject :+
         value = value.round 8
         tx    = { value: value, hash: hash }
-        # `console.log(tx)`
-        tx_viz.transactions = [tx] + tx_viz.transactions[0..1000]
+
+        comp_num = 100
+        tx_gone = tx_viz.transactions[comp_num+1]
+
+        if tx_gone
+          reactid = ".0.3.$#{tx_gone[:hash]}"
+          elem_gone = `document.querySelector("div[data-reactid='"+reactid+"']")`
+          # `console.log(#{elem_gone})`
+          `React.unmountComponentAtNode(elem_gone)`
+        end
+
+        tx_viz.transactions = [tx] + tx_viz.transactions[0..comp_num]
         tx_viz.total_value  = tx_viz.total_value + value
       end
     end
@@ -111,7 +121,8 @@ class TxViz
       end
       div className: "tx_list" do
         self.transactions.each_with_index.map do |tx, idx|
-          present Transaction, tx: tx, key: tx[:hash]
+          comp = present Transaction, tx: tx, key: tx[:hash]
+          comp
         end
       end
     end

@@ -7,3 +7,4 @@ gem "opal", "~> 0.7.0"#, github: "opal/opal"
 
 gem 'guard-shell'
 gem 'guard-concat'
+gem 'guard-sass'
