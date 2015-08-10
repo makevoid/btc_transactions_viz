@@ -24,7 +24,6 @@ module TxFetcher
         if tx_gone
           reactid = ".0.3.$#{tx_gone[:hash]}"
           elem_gone = `document.querySelector("div[data-reactid='"+reactid+"']")`
-          # `console.log(#{elem_gone})`
           `React.unmountComponentAtNode(elem_gone)`
         end
 
@@ -58,8 +57,6 @@ class Transaction
         width: width
       }
     `
-    # { color: "red", width: "#{params[:tx][:value].round}%", maxWidth: "#{params[:tx][:value].round}%" }
-
     div style: `divStyle` do
       element
     end

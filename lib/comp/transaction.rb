@@ -21,8 +21,6 @@ class Transaction
         width: width
       }
     `
-    # { color: "red", width: "#{params[:tx][:value].round}%", maxWidth: "#{params[:tx][:value].round}%" }
-
     div style: `divStyle` do
       element
     end

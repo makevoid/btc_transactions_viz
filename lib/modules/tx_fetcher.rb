@@ -20,7 +20,6 @@ module TxFetcher
         if tx_gone
           reactid = ".0.3.$#{tx_gone[:hash]}"
           elem_gone = `document.querySelector("div[data-reactid='"+reactid+"']")`
-          # `console.log(#{elem_gone})`
           `React.unmountComponentAtNode(elem_gone)`
         end
 
