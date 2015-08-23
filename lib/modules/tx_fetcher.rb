@@ -18,11 +18,13 @@ module TxFetcher
         tx_gone = tx_viz.transactions[comp_num+1]
 
         if tx_gone
+          # TODO: look at ref
           reactid = ".0.3.$#{tx_gone[:hash]}"
+          # React.findDOMNode
           elem_gone = `document.querySelector("div[data-reactid='"+reactid+"']")`
           `React.unmountComponentAtNode(elem_gone)`
         end
-
+        # tx_viz.transactions.push tx
         tx_viz.transactions = [tx] + tx_viz.transactions[0..comp_num]
         tx_viz.total_value  = tx_viz.total_value + value
       end
